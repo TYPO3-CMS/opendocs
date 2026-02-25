@@ -1,0 +1,13 @@
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+import c from"@typo3/core/ajax/ajax-request.js";import{BroadcastMessage as i}from"@typo3/backend/broadcast-message.js";import d from"@typo3/backend/broadcast-service.js";const r="typo3:open-document-store:changed";class a{constructor(){this.recentDocuments=new Map,this.isLoaded=!1,this.loadPromise=null,document.addEventListener("typo3:open-document:broadcast",e=>this.handleBroadcast(e)),document.addEventListener("typo3:opendocs:updateRequested",()=>this.refresh())}async getRecentDocuments(){return await this.ready(),[...this.recentDocuments.values()]}async refresh(){this.isLoaded=!1,this.loadPromise=null,await this.fetchAll()}navigate(e){const t=document.querySelector("typo3-backend-module-router");if(t===null)throw new Error("Router not available.");const o=window.list_frame.document.location.pathname+window.list_frame.document.location.search,s=new URL(e.uri,window.location.origin);s.searchParams.set("returnUrl",o),t.setAttribute("endpoint",s.toString())}async ready(){this.isLoaded||await this.fetchAll()}async fetchAll(){this.isLoaded||(this.loadPromise||(this.loadPromise=this.doFetch()),await this.loadPromise)}handleBroadcast(e){this.load(e.detail.payload),this.notifyChanged(!1)}load(e){this.recentDocuments.clear();for(const t of e.recentDocuments)this.recentDocuments.set(t.identifier,t);this.isLoaded=!0}notifyChanged(e=!0){const t=new CustomEvent(r);document.dispatchEvent(t);for(let o=0;o<window.frames.length;o++)try{window.frames[o].document.dispatchEvent(t)}catch{}e&&d.post(new i("open-document","broadcast",{recentDocuments:[...this.recentDocuments.values()]}))}async doFetch(){try{const e=TYPO3.settings.ajaxUrls.opendocs_list;if(!e){console.warn("OpenDocumentStore: opendocs_list URL not available yet");return}const o=await(await new c(e).get({cache:"no-cache"})).resolve();o.success&&(this.load(o),this.notifyChanged(!1))}catch(e){throw console.error("Failed to fetch documents:",e),e}}}function u(){try{if(top?.TYPO3?.OpenDocumentStore)return top.TYPO3.OpenDocumentStore;const n=new a;return top?.TYPO3&&(top.TYPO3.OpenDocumentStore=n),n}catch{return new a}}var l=u();export{r as OpenDocumentStoreChangedEvent,l as default};

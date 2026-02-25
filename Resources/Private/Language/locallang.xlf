@@ -4,25 +4,19 @@
     <header/>
     <body>
       <trans-unit id="toolbaritem">
-        <source>Open and recently used documents</source>
+        <source>Recently opened documents</source>
       </trans-unit>
       <trans-unit id="toolbarItems.headline">
-        <source>Open and recently used documents</source>
+        <source>Recently opened documents</source>
       </trans-unit>
-      <trans-unit id="toolbarItems.openDocuments.headline">
-        <source>Open documents</source>
+      <trans-unit id="recentDocuments.emptyList">
+        <source>No documents were opened recently.</source>
       </trans-unit>
-      <trans-unit id="toolbarItems.openDocuments.emptyList">
-        <source>There are currently no open documents.</source>
+      <trans-unit id="recentDocuments.lastOpened">
+        <source>Last opened</source>
       </trans-unit>
-      <trans-unit id="toolbarItems.openDocuments.btn.closeAllDocs">
-        <source>Close all open documents</source>
-      </trans-unit>
-      <trans-unit id="toolbarItems.recentDocuments.headline">
-        <source>Recently used documents</source>
-      </trans-unit>
-      <trans-unit id="toolbarItems.recentDocuments.emptyList">
-        <source>No documents were used recently.</source>
+      <trans-unit id="recentDocuments.path">
+        <source>Path</source>
       </trans-unit>
     </body>
   </file>
